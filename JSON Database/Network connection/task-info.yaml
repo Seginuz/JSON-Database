@@ -1,0 +1,174 @@
+type: edu
+files:
+- name: src/client/Main.java
+  visible: true
+  text: |
+    package client;
+
+    public class Main {
+
+        public static void main(String[] args) {
+            System.out.println("Hello, world!");
+        }
+    }
+  learner_created: false
+- name: src/server/Main.java
+  visible: true
+  text: |
+    package server;
+
+    import java.util.Arrays;
+    import java.util.Scanner;
+
+    public class Main {
+
+        static Scanner scanner = new Scanner(System.in);
+        static String[] database = new String[100];
+        static String result;
+
+        public static void main(String[] args) {
+            Arrays.fill(database, "");
+
+            while (true) {
+                String[] input = scanner.nextLine().split(" ");
+
+                String command = input[0];
+                input[0] = "";
+                if ("exit".equals(command)) {
+                    return;
+                }
+
+                int index;
+                try {
+                    index = Integer.parseInt(input[1]) - 1;
+                    input[1] = "";
+                } catch (Exception e) {
+                    index = -1;
+                }
+
+                String value = String.join(" ", input).trim();
+
+                if (index < 0 || index > database.length - 1) {
+                    result = "ERROR";
+                } else {
+                    switch (command) {
+                        case "set":
+                            result = setCell(index, value);
+                            break;
+                        case "get":
+                            result = getCell(index);
+                            break;
+                        case "delete":
+                            result = deleteCell(index);
+                            break;
+                        default:
+                            result = "ERROR";
+                    }
+                }
+
+                System.out.println(result);
+            }
+        }
+
+        public static String setCell(int index, String input) {
+            if (index < 0 || index > database.length - 1) {
+                return "ERROR";
+            } else {
+                database[index] = input;
+                return "OK";
+            }
+        }
+
+        public static String getCell(int index) {
+            if ("".equals(database[index])) {
+                return "ERROR";
+            } else {
+                return database[index];
+            }
+        }
+
+        public static String deleteCell(int index) {
+            database[index] = "";
+            return "OK";
+        }
+    }
+  learner_created: false
+- name: test/JsonDatabaseTest.java
+  visible: false
+  text: |
+    import org.hyperskill.hstest.dynamic.DynamicTest;
+    import org.hyperskill.hstest.stage.StageTest;
+    import org.hyperskill.hstest.testcase.CheckResult;
+    import org.hyperskill.hstest.testing.TestedProgram;
+
+    public class JsonDatabaseTest extends StageTest<String> {
+
+        private static final String CORRECT_SERVER_OUTPUT =
+            "Server started!\n" +
+                "Received: Give me a record # N\n" +
+                "Sent: A record # N was sent!";
+
+        private static final String CORRECT_CLIENT_OUTPUT =
+            "Client started!\n" +
+                "Sent: Give me a record # N\n" +
+                "Received: A record # N was sent!";
+
+        @DynamicTest(order = 1)
+        CheckResult test() {
+
+            TestedProgram server = new TestedProgram("server");
+            server.startInBackground();
+
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            String serverOutput = server.getOutput().trim();
+
+            if (!serverOutput.trim().equals("Server started!")) {
+                return CheckResult.wrong("Server output should be 'Server started!' until a client connects!");
+            }
+
+            TestedProgram client = new TestedProgram("client");
+
+            String clientOutput = client.start();
+            serverOutput += "\n" + server.getOutput();
+
+            String[] serverOutputLines = serverOutput.split("\n");
+
+            if (serverOutputLines.length != 3) {
+                return CheckResult.wrong("After the client connects to the server, the server output should contain 3 lines!");
+            }
+
+            String serverOutputLastLine = serverOutputLines[serverOutputLines.length - 1];
+
+            if (!serverOutputLastLine.contains("Sent: A record #") || !serverOutputLastLine.contains("was sent!")) {
+                return CheckResult.wrong("Server output after client connects to the server should be:\n"
+                    + CORRECT_SERVER_OUTPUT + "\n\nWhere N is some number.\n\nYour output:\n" + serverOutput);
+            }
+
+            String[] clientOutputLines = clientOutput.split("\n");
+
+            if (clientOutputLines.length != 3) {
+                return CheckResult.wrong("After the client connects to the server, the client output should contain 3 lines!");
+            }
+
+            String clientOutputLastLine = clientOutputLines[clientOutputLines.length - 1];
+
+            if (!clientOutputLastLine.contains("Received: A record #") || !clientOutputLastLine.contains("was sent!")) {
+                return CheckResult.wrong("Client output after client connects to the server should be:\n"
+                    + CORRECT_CLIENT_OUTPUT + "\n\nWhere N is some number.\n\nYour output:\n" + clientOutput);
+            }
+
+            return CheckResult.correct();
+        }
+    }
+  learner_created: false
+- name: src/server/Session.java
+  visible: true
+  learner_created: true
+feedback_link: https://hyperskill.org/learn/step/5491#comment
+status: Solved
+record: 1
