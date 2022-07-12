@@ -57,6 +57,10 @@
             <option value="$PROJECT_DIR$/Topics/Processing strings/Move the first N characters" />
             <option value="$PROJECT_DIR$/Topics/Processing strings/Number of occurrences" />
             <option value="$PROJECT_DIR$/Topics/Processing strings/Theory" />
+            <option value="$PROJECT_DIR$/Topics/States of a thread/Finding and starting a thread" />
+            <option value="$PROJECT_DIR$/Topics/States of a thread/How to jump to the TIMED_WAITING state" />
+            <option value="$PROJECT_DIR$/Topics/States of a thread/Print name of TERMINATED thread" />
+            <option value="$PROJECT_DIR$/Topics/States of a thread/Theory" />
             <option value="$PROJECT_DIR$/Topics/The List interface/Backward indexes" />
             <option value="$PROJECT_DIR$/Topics/The List interface/Companies" />
             <option value="$PROJECT_DIR$/Topics/The List interface/Filtering the list" />

@@ -47,6 +47,10 @@
       <module name="JSON_Database.Topics-Processing_strings-Move_the_first_N_characters.main" target="11" />
       <module name="JSON_Database.Topics-Processing_strings-Number_of_occurrences.main" target="11" />
       <module name="JSON_Database.Topics-Processing_strings-Theory.main" target="11" />
+      <module name="JSON_Database.Topics-States_of_a_thread-Finding_and_starting_a_thread.main" target="11" />
+      <module name="JSON_Database.Topics-States_of_a_thread-How_to_jump_to_the_TIMED_WAITING_state.main" target="11" />
+      <module name="JSON_Database.Topics-States_of_a_thread-Print_name_of_TERMINATED_thread.main" target="11" />
+      <module name="JSON_Database.Topics-States_of_a_thread-Theory.main" target="11" />
       <module name="JSON_Database.Topics-The_List_interface-Backward_indexes.main" target="11" />
       <module name="JSON_Database.Topics-The_List_interface-Companies.main" target="11" />
       <module name="JSON_Database.Topics-The_List_interface-Filtering_the_list.main" target="11" />
